@@ -41,3 +41,13 @@
 
 <p>&nbsp;</p>
 <p><b data-stringify-type="bold">Follow-up:&nbsp;</b>If the string data type is mutable in your language, can&nbsp;you solve it&nbsp;<b data-stringify-type="bold">in-place</b>&nbsp;with&nbsp;<code data-stringify-type="code">O(1)</code>&nbsp;extra space?</p>
+
+
+
+
+
+
+
+
+<img width="1421" height="1655" alt="image" src="https://github.com/user-attachments/assets/5140a355-6f29-4ace-a658-35e0b94a9559" />
+
