@@ -1,30 +1,48 @@
 class Solution {
 public:
-    string reorganizeString(string S) {
-        unordered_map<char,int> freq;
-        for (char c : S) freq[c]++;
-
-        // max-heap of (count, char)
-        priority_queue<pair<int,char>> pq;
-        for (auto &kv : freq) pq.push({kv.second, kv.first});
-
-        string res;
-        while (pq.size() > 1) {
-            auto [c1cnt, c1] = pq.top(); pq.pop();
-            auto [c2cnt, c2] = pq.top(); pq.pop();
-
-            res.push_back(c1);
-            res.push_back(c2);
-
-            if (--c1cnt > 0) pq.push({c1cnt, c1});
-            if (--c2cnt > 0) pq.push({c2cnt, c2});
+    string reorganizeString(string s) {
+        // Step 1: Count frequency of each character
+        int freqHash[26] = {0};
+        for(int i = 0; i < s.size(); i++){
+            freqHash[s[i] - 'a']++;
         }
 
-        if (!pq.empty()) {
-            auto [cnt, ch] = pq.top();
-            if (cnt > 1) return "";
-            res.push_back(ch);
+        // Step 2: Find the character with highest frequency
+        int highFreq = 0;
+        char highChar;
+        for(int i = 0; i < 26; i++){
+            if(freqHash[i] > highFreq){
+                highFreq = freqHash[i];
+                highChar = i + 'a';
+            }
         }
-        return res;
+
+        // Step 3: Place the most frequent character at even indices
+        int i = 0;
+        while(i < s.size() && highFreq > 0){
+            s[i] = highChar;
+            i += 2;  // Move to next even position
+            highFreq--;
+        }
+
+        // Step 4: If we couldn't place all occurrences, it's impossible
+        if(highFreq != 0) return "";
+        
+        // Mark this character as fully placed
+        freqHash[highChar - 'a'] = 0;
+
+        // Step 5: Place all remaining characters
+        for(int j = 0; j < 26; j++){
+            while(freqHash[j] > 0){
+                // If we've filled all even positions, switch to odd positions
+                if(i >= s.size()) i = 1;
+                
+                s[i] = j + 'a';
+                freqHash[j]--;
+                i += 2;  // Move to next available position
+            }
+        }
+        
+        return s;
     }
 };
