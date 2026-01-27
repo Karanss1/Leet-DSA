@@ -1,40 +1,36 @@
 class Solution {
 public:
     int calculate(string s) {
-        stack<int> st;
+        long result = 0, lastNum = 0, num = 0;
         char op = '+';
-        int i = 0 ;
-        while(i < s.size()){
-            if(s[i] == ' '){
-                 i++;
+
+        for (int i = 0; i < s.size(); i++) {
+            if (isdigit(s[i])) {
+                num = num * 10 + (s[i] - '0');
             }
-            else if(s[i] == '/' || s[i] == '+' || s[i] == '*' || s[i] =='-'){
+
+            if ((!isdigit(s[i]) && s[i] != ' ') || i == s.size() - 1) {
+                if (op == '+') {
+                    result += lastNum;
+                    lastNum = num;
+                } 
+                else if (op == '-') {
+                    result += lastNum;
+                    lastNum = -num;
+                } 
+                else if (op == '*') {
+                    lastNum = lastNum * num;
+                } 
+                else if (op == '/') {
+                    lastNum = lastNum / num;
+                }
+
                 op = s[i];
-                i++;
-            }else {
-                int num = 0;
-                while(i < s.size() && isdigit(s[i]) ){
-                    num = num*10 + (s[i] - '0');
-                    i++;
-                }
-                if(op == '+'){
-                    st.push(num);
-                }else if( op == '-'){
-                    st.push(num*-1);
-                }else{
-                    int x = st.top();
-                    st.pop();
-                    (op == '*') ? st.push(num*x) : st.push(x/num);
-                }
+                num = 0;
             }
-        }
-        int ans = 0;
-        while(!st.empty()){
-            ans +=st.top();
-            st.pop();
         }
 
-return ans ;
-        
+        result += lastNum;
+        return result;
     }
 };
