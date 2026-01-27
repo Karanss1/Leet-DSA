@@ -6,7 +6,7 @@ public:
 
         for (int i = 0; i < s.size(); i++) {
             if (isdigit(s[i])) {
-                num = num * 10 + (s[i] - '0');
+                num = num * 10 + (s[i] - '0');  // NUM PARSING , BASICALLY 3+4+5 = 345
             }
 
             if ((!isdigit(s[i]) && s[i] != ' ') || i == s.size() - 1) {
